@@ -183,24 +183,18 @@ func (node *bstNode) rank(key int) int {
 
 // Keys returns an array of all keys in order
 func (s *BST) Keys() []int {
-    q := NewQueue()
-    a := make([]int, 0, s.Size())
-    
-    s.root.inorder(q)
-    
-    for !q.IsEmpty() {
-        a = append(a, q.Dequeue())
-    }
-    return a
+    var keys []int
+    return s.root.inorder(keys)
 }
 
-func (node *bstNode) inorder(q *Queue) {
+func (node *bstNode) inorder(a []int) []int {
     if node == nil {
-        return
+        return a
     }
-    node.left.inorder(q)
-    q.Enqueue(node.key)
-    node.right.inorder(q)
+    l := node.left.inorder(a)
+    m := append(l, node.key)
+    r := node.right.inorder(m)
+    return r
 }
 
 // todo: delete
